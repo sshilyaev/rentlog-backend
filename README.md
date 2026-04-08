@@ -9,7 +9,7 @@
 - API `v1`
 - health-check endpoint
 - задел под JWT-аутентификацию
-- базовая модульная структура `Shared`, `Auth`, `Health`, `Property`, `Contract`
+- базовая модульная структура `Shared`, `Auth`, `Health`, `Property`, `Rent`, `Billing`
 
 ## Запуск
 
@@ -66,6 +66,19 @@ php bin/console debug:router
 - `GET /api/v1/properties/{id}/members`
 - `POST /api/v1/properties/{id}/members`
 - `POST /api/v1/properties/{id}/members/{memberId}/invite`
+- `GET /api/v1/properties/{id}/rent-terms`
+- `PUT /api/v1/properties/{id}/rent-terms`
+- `GET /api/v1/properties/{id}/members/{memberId}/rent-terms`
+- `PUT /api/v1/properties/{id}/members/{memberId}/rent-terms`
+- `GET /api/v1/properties/{id}/meters`
+- `POST /api/v1/properties/{id}/meters`
+- `POST /api/v1/properties/{id}/meters/{meterId}/initial-reading`
+- `GET /api/v1/properties/{id}/meters/{meterId}/readings`
+- `POST /api/v1/properties/{id}/meters/{meterId}/readings`
+- `GET /api/v1/properties/{id}/billing/parameters`
+- `POST /api/v1/properties/{id}/billing/parameters`
+- `GET /api/v1/properties/{id}/billing/parameters/{parameterId}/tariffs`
+- `POST /api/v1/properties/{id}/billing/parameters/{parameterId}/tariffs`
 - `POST /api/v1/invitations/claim`
 
 ## Важное замечание

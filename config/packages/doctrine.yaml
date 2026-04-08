@@ -19,3 +19,15 @@ doctrine:
         dir: '%kernel.project_dir%/src/Property/Domain/Entity'
         prefix: 'App\Property\Domain\Entity'
         alias: Property
+      Rent:
+        is_bundle: false
+        type: attribute
+        dir: '%kernel.project_dir%/src/Rent/Domain/Entity'
+        prefix: 'App\Rent\Domain\Entity'
+        alias: Rent
+      Billing:
+        is_bundle: false
+        type: attribute
+        dir: '%kernel.project_dir%/src/Billing/Domain/Entity'
+        prefix: 'App\Billing\Domain\Entity'
+        alias: Billing
