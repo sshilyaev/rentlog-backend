@@ -1,0 +1,13 @@
+/vendor/
+/var/
+/.env.local
+/.env.local.php
+/.env.*.local
+/phpunit.xml
+/public/bundles/
+/config/jwt/private.pem
+/config/jwt/public.pem
+/.env.server
+.phpunit.result.cache
+.idea/
+.DS_Store

@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+$phpunit = dirname(__DIR__) . '/vendor/bin/phpunit';
+
+if (!is_file($phpunit)) {
+    fwrite(STDERR, "PHPUnit is not installed. Run composer install when network access is available.\n");
+    exit(1);
+}
+
+passthru(sprintf('"%s" %s', $phpunit, implode(' ', array_map('escapeshellarg', array_slice($argv, 1)))), $exitCode);
+
+exit($exitCode);

@@ -1,0 +1,5 @@
+api_v1:
+  resource: routes/api_v1.yaml
+
+api_docs:
+  resource: routes/nelmio_api_doc.yaml

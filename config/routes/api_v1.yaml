@@ -1,0 +1,4 @@
+api_v1_controllers:
+  resource: ../../src/
+  type: attribute
+  prefix: /api/v1
