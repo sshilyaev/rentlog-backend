@@ -42,6 +42,17 @@ php bin/console cache:clear
 php bin/console debug:router
 ```
 
+## Профайлер в разработке
+
+В окружении `dev` включен Symfony Web Profiler.
+
+Полезные адреса:
+
+- `/_profiler`
+- `/_wdt`
+
+Это используется только для локальной разработки и отладки ошибок.
+
 ## Базовые маршруты
 
 - `GET /api/v1/health`
