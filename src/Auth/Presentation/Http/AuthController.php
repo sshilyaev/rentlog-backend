@@ -3,14 +3,18 @@
 namespace App\Auth\Presentation\Http;
 
 use App\Auth\Application\Dto\RegisterRequestDto;
+use App\Auth\Application\Service\AuthResponseFactory;
 use App\Auth\Application\Service\RegisterUserService;
 use App\Auth\Domain\Entity\User;
 use App\Auth\Domain\Exception\UserAlreadyExistsException;
+use App\Property\Application\Service\LinkPropertyMembersByEmailService;
 use App\Shared\Presentation\Http\ApiJsonResponse;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -22,11 +26,23 @@ final class AuthController
         Request $request,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
-        RegisterUserService $registerUserService
+        RegisterUserService $registerUserService,
+        JWTTokenManagerInterface $jwtTokenManager,
+        AuthResponseFactory $authResponseFactory,
+        LinkPropertyMembersByEmailService $linkPropertyMembersByEmailService
     ): Response
     {
-        /** @var RegisterRequestDto $dto */
-        $dto = $serializer->deserialize($request->getContent(), RegisterRequestDto::class, 'json');
+        try {
+            /** @var RegisterRequestDto $dto */
+            $dto = $serializer->deserialize($request->getContent(), RegisterRequestDto::class, 'json');
+        } catch (SerializerExceptionInterface) {
+            return ApiJsonResponse::error(
+                'invalid_payload',
+                'Некорректный формат данных запроса.',
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         $errors = $validator->validate($dto);
 
         if (count($errors) > 0) {
@@ -47,10 +63,13 @@ final class AuthController
             );
         }
 
+        $linkedMembersCount = $linkPropertyMembersByEmailService->handle($user);
+        $token = $jwtTokenManager->create($user);
+
         return ApiJsonResponse::success([
             'message' => 'Пользователь зарегистрирован.',
-            'userId' => $user->getId(),
-            'email' => $user->getEmail(),
+            'linkedPropertyMembersCount' => $linkedMembersCount,
+            ...$authResponseFactory->make($user, $token),
         ], Response::HTTP_CREATED);
     }
 
@@ -76,10 +95,12 @@ final class AuthController
         }
 
         return ApiJsonResponse::success([
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'fullName' => $user->getFullName(),
-            'roles' => $user->getRoles(),
+            'user' => [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'fullName' => $user->getFullName(),
+                'roles' => $user->getRoles(),
+            ],
         ]);
     }
 }

@@ -48,6 +48,14 @@ php bin/console debug:router
 - `POST /api/v1/auth/register`
 - `POST /api/v1/auth/login`
 - `GET /api/v1/auth/me`
+- `GET /api/v1/properties/types`
+- `POST /api/v1/properties`
+- `GET /api/v1/properties`
+- `GET /api/v1/properties/{id}`
+- `GET /api/v1/properties/{id}/members`
+- `POST /api/v1/properties/{id}/members`
+- `POST /api/v1/properties/{id}/members/{memberId}/invite`
+- `POST /api/v1/invitations/claim`
 
 ## Важное замечание
 

@@ -16,3 +16,9 @@ doctrine:
         dir: '%kernel.project_dir%/src/Auth/Domain/Entity'
         prefix: 'App\Auth\Domain\Entity'
         alias: Auth
+      Property:
+        is_bundle: false
+        type: attribute
+        dir: '%kernel.project_dir%/src/Property/Domain/Entity'
+        prefix: 'App\Property\Domain\Entity'
+        alias: Property
