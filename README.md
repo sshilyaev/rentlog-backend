@@ -77,3 +77,11 @@ cp .env.server.example .env.server
 chmod +x deploy.sh
 ./deploy.sh
 ```
+
+Серверный `nginx` публикуется только локально на хосте:
+
+```txt
+127.0.0.1:8080:80
+```
+
+Это сделано для работы за внешним reverse proxy, например `Caddy` или `nginx` на домене.
