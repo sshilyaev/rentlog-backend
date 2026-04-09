@@ -6,7 +6,7 @@ services:
     container_name: rentlog_backend_php
     restart: unless-stopped
     env_file:
-      - .env.server
+      - .env
     environment:
       APP_ENV: prod
       APP_DEBUG: 0

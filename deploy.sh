@@ -6,8 +6,8 @@ BRANCH="${1:-main}"
 
 cd "$PROJECT_DIR"
 
-if [[ ! -f ".env.server" ]]; then
-  echo "Missing .env.server. Copy: cp .env.server.example .env.server"
+if [[ ! -f ".env" ]]; then
+  echo "Missing .env. On the server keep production values in .env (see .env.dev for local dev template)."
   exit 1
 fi
 
@@ -24,8 +24,7 @@ git pull --ff-only origin "$BRANCH"
 
 if git diff --name-only "$PREV_HEAD" HEAD | grep -q '^\.env$'; then
   echo ""
-  echo "Note: .env changed in this pull. Merge any new variable names into .env.server;"
-  echo "      do not replace .env.server with a full copy of .env."
+  echo "Note: .env changed in this pull. If the server uses git-tracked .env, review secrets and prod-only values."
   echo ""
 fi
 
@@ -40,12 +39,12 @@ if [[ ! -f "config/jwt/private.pem" || ! -f "config/jwt/public.pem" ]]; then
 fi
 
 echo "Building and starting containers..."
-docker compose --env-file .env.server -f docker-compose.server.yml up -d --build
+docker compose -f docker-compose.server.yml up -d --build
 
 echo "Running migrations..."
-docker compose --env-file .env.server -f docker-compose.server.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction
+docker compose -f docker-compose.server.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction
 
 echo "Clearing cache..."
-docker compose --env-file .env.server -f docker-compose.server.yml exec -T php php bin/console cache:clear
+docker compose -f docker-compose.server.yml exec -T php php bin/console cache:clear
 
 echo "Deployment completed."
