@@ -1,3 +1,10 @@
+parameters:
+  env(WEB_PROFILER_ENABLED): '0'
+  env(PROFILER_HTTP_PASSWORD): ''
+  env(DEFAULT_ADMIN_EMAIL): ''
+  env(DEFAULT_ADMIN_PASSWORD): ''
+  env(DEFAULT_ADMIN_FULL_NAME): 'Administrator'
+
 services:
   _defaults:
     autowire: true
@@ -7,4 +14,27 @@ services:
     exclude:
       - ../src/DependencyInjection/
       - ../src/Kernel.php
-parameters: null
+      - ../src/Auth/Infrastructure/Bootstrap/EnsureDefaultAdminSubscriber.php
+
+  App\Shared\Infrastructure\EventSubscriber\ProdWebProfilerGuardSubscriber:
+    arguments:
+      $kernelEnvironment: '%kernel.environment%'
+      $webProfilerEnabled: '%env(bool:WEB_PROFILER_ENABLED)%'
+      $profilerHttpPassword: '%env(string:PROFILER_HTTP_PASSWORD)%'
+
+  App\Auth\Infrastructure\Bootstrap\EnsureDefaultAdminSubscriber:
+    arguments:
+      $kernelEnvironment: '%kernel.environment%'
+      $defaultAdminEmail: '%env(string:DEFAULT_ADMIN_EMAIL)%'
+      $defaultAdminPassword: '%env(string:DEFAULT_ADMIN_PASSWORD)%'
+      $defaultAdminFullName: '%env(string:DEFAULT_ADMIN_FULL_NAME)%'
+
+  App\Shared\Infrastructure\Security\DevProfilerAssetsRequestMatcher:
+    arguments:
+      $kernelEnvironment: '%kernel.environment%'
+  App\Shared\Infrastructure\Security\ProdWebProfilerAssetsRequestMatcher:
+    arguments:
+      $kernelEnvironment: '%kernel.environment%'
+  App\Shared\Infrastructure\Security\ProdWebProfilerToolsRequestMatcher:
+    arguments:
+      $kernelEnvironment: '%kernel.environment%'

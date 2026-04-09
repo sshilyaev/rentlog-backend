@@ -1,0 +1,8 @@
+when@prod:
+  web_profiler:
+    toolbar:
+      enabled: '%env(bool:WEB_PROFILER_ENABLED)%'
+  framework:
+    profiler:
+      collect: '%env(bool:WEB_PROFILER_ENABLED)%'
+      only_exceptions: false
