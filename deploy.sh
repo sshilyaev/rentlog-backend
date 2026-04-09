@@ -60,7 +60,7 @@ echo "Running migrations..."
 docker compose -f docker-compose.server.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction
 
 echo "Publishing bundle assets to public/bundles (nginx serves the host tree, not the image)..."
-docker compose -f docker-compose.server.yml exec -T php php bin/console assets:install public --no-interaction --no-symlink
+docker compose -f docker-compose.server.yml exec -T php php bin/console assets:install public --no-interaction
 rm -rf public/bundles
 mkdir -p public/bundles
 docker compose -f docker-compose.server.yml cp "php:/var/www/html/public/bundles/." "./public/bundles/"
