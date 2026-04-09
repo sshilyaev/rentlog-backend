@@ -31,12 +31,18 @@ fi
 mkdir -p config/jwt
 
 if [[ ! -f "config/jwt/private.pem" || ! -f "config/jwt/public.pem" ]]; then
-  echo "JWT keys are missing. They are not in git (.gitignore); create them on the server."
-  echo "Example:"
-  echo "  openssl genrsa -out config/jwt/private.pem 4096"
-  echo "  openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem"
-  echo "  chmod 644 config/jwt/private.pem config/jwt/public.pem"
-  exit 1
+  if ! command -v openssl >/dev/null 2>&1; then
+    echo "JWT keys are missing and openssl is not installed on the host."
+    echo "Install openssl or create keys manually:"
+    echo "  openssl genrsa -out config/jwt/private.pem 4096"
+    echo "  openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem"
+    echo "  chmod 644 config/jwt/private.pem config/jwt/public.pem"
+    exit 1
+  fi
+  echo "Generating JWT RSA keys (not in git; first deploy on this server)..."
+  openssl genrsa -out config/jwt/private.pem 4096
+  openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem
+  chmod 644 config/jwt/private.pem config/jwt/public.pem
 fi
 
 echo "Building and starting containers..."
