@@ -76,6 +76,51 @@ class MeterReading
         return $this->meter;
     }
 
+    public function setMeter(Meter $meter): void
+    {
+        $this->meter = $meter;
+    }
+
+    public function __toString(): string
+    {
+        return $this->value.' ('.$this->type->value.')';
+    }
+
+    public function setRecordedByUser(User $recordedByUser): void
+    {
+        $this->recordedByUser = $recordedByUser;
+    }
+
+    public function setType(MeterReadingType $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function setBillingYear(?int $billingYear): void
+    {
+        $this->billingYear = $billingYear;
+    }
+
+    public function setBillingMonth(?int $billingMonth): void
+    {
+        $this->billingMonth = $billingMonth;
+    }
+
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    public function setRecordedAt(\DateTimeImmutable $recordedAt): void
+    {
+        $this->recordedAt = $recordedAt;
+    }
+
     public function getRecordedByUser(): User
     {
         return $this->recordedByUser;

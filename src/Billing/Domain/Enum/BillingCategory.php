@@ -9,9 +9,7 @@ enum BillingCategory: string
     case Service = 'service';
     case Other = 'other';
 
-    /**
-     * @return list<string>
-     */
+    
     public static function values(): array
     {
         return array_map(static fn (self $item): string => $item->value, self::cases());

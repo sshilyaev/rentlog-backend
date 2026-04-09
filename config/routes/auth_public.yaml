@@ -1,0 +1,5 @@
+auth_login_root:
+  path: /auth/login
+  controller: 'App\Auth\Presentation\Http\AuthController::login'
+  methods:
+    - POST

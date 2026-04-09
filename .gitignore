@@ -11,3 +11,6 @@
 .phpunit.result.cache
 .idea/
 .DS_Store
+/config/secrets/prod/prod.decrypt.private.php
+/.phpunit.cache/
+/config/reference.php

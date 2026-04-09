@@ -79,6 +79,16 @@ class Invitation
         return $this->propertyMember;
     }
 
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    public function __toString(): string
+    {
+        return $this->code;
+    }
+
     public function getTargetEmail(): ?string
     {
         return $this->targetEmail;

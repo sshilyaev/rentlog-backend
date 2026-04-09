@@ -34,3 +34,4 @@ RUN mkdir -p var/cache var/log \
 USER www-data
 
 CMD ["php-fpm"]
+

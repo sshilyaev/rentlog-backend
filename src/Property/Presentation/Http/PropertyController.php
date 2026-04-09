@@ -54,7 +54,7 @@ final class PropertyController
         }
 
         try {
-            /** @var CreatePropertyRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreatePropertyRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error(
@@ -185,7 +185,7 @@ final class PropertyController
         }
 
         try {
-            /** @var CreatePropertyMemberRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreatePropertyMemberRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error(
@@ -257,7 +257,7 @@ final class PropertyController
         }
 
         try {
-            /** @var CreateInvitationRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateInvitationRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             $dto = new CreateInvitationRequestDto();

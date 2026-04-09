@@ -1,4 +1,20 @@
-api_v1_controllers:
-  resource: ../../src/
+api_v1_auth:
+  resource: ../../src/Auth/Presentation/Http/
+  type: attribute
+  prefix: /api/v1
+api_v1_billing:
+  resource: ../../src/Billing/Presentation/Http/
+  type: attribute
+  prefix: /api/v1
+api_v1_property:
+  resource: ../../src/Property/Presentation/Http/
+  type: attribute
+  prefix: /api/v1
+api_v1_rent:
+  resource: ../../src/Rent/Presentation/Http/
+  type: attribute
+  prefix: /api/v1
+api_v1_health:
+  resource: ../../src/Health/Presentation/Http/
   type: attribute
   prefix: /api/v1

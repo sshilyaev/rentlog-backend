@@ -21,6 +21,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/auth', name: 'api_v1_auth_')]
 final class AuthController
 {
+    
+    #[Route('/login', name: 'login', methods: ['POST'])]
+    public function login(): never
+    {
+        throw new \LogicException('Обработка входа выполняется через json_login firewall.');
+    }
+
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(
         Request $request,
@@ -33,7 +40,7 @@ final class AuthController
     ): Response
     {
         try {
-            /** @var RegisterRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), RegisterRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error(

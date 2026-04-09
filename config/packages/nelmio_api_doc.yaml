@@ -1,8 +1,8 @@
 nelmio_api_doc:
   documentation:
     info:
-      title: Rentlog Backend API
-      description: Foundation API for the Rentlog platform.
+      title: 'Rentlog Backend API'
+      description: 'Foundation API for the Rentlog platform.'
       version: 1.0.0
     components:
       securitySchemes:
@@ -11,7 +11,8 @@ nelmio_api_doc:
           scheme: bearer
           bearerFormat: JWT
     security:
-      - bearerAuth: []
+      -
+        bearerAuth: []
   areas:
     path_patterns:
       - ^/api/v1

@@ -24,9 +24,7 @@ final class CreatePropertyRequestDto
     #[Assert\Type('array')]
     public array $metadata = [];
 
-    /**
-     * @return list<string>
-     */
+    
     public static function availableTypes(): array
     {
         return \App\Property\Domain\Enum\PropertyType::values();

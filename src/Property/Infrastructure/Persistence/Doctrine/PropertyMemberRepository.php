@@ -73,9 +73,7 @@ final class PropertyMemberRepository extends ServiceEntityRepository
         return false;
     }
 
-    /**
-     * @return list<PropertyMember>
-     */
+    
     public function findUnlinkedByEmail(string $email): array
     {
         return $this->createQueryBuilder('member')
@@ -98,9 +96,7 @@ final class PropertyMemberRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * @return list<PropertyMember>
-     */
+    
     public function findByProperty(Property $property): array
     {
         return $this->createQueryBuilder('member')

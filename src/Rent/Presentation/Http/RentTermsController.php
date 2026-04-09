@@ -78,7 +78,7 @@ final class RentTermsController
         }
 
         try {
-            /** @var UpsertRentTermsRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), UpsertRentTermsRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);
@@ -175,7 +175,7 @@ final class RentTermsController
         }
 
         try {
-            /** @var UpsertRentTermsRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), UpsertRentTermsRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);

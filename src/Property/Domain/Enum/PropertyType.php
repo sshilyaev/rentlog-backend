@@ -11,9 +11,7 @@ enum PropertyType: string
     case Office = 'office';
     case Other = 'other';
 
-    /**
-     * @return list<string>
-     */
+    
     public static function values(): array
     {
         return array_map(

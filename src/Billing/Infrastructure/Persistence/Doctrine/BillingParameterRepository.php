@@ -14,9 +14,7 @@ final class BillingParameterRepository extends ServiceEntityRepository
         parent::__construct($registry, BillingParameter::class);
     }
 
-    /**
-     * @return list<BillingParameter>
-     */
+    
     public function findByProperty(Property $property): array
     {
         return $this->createQueryBuilder('parameter')

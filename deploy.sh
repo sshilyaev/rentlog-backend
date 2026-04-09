@@ -7,7 +7,7 @@ BRANCH="${1:-main}"
 cd "$PROJECT_DIR"
 
 if [[ ! -f ".env.server" ]]; then
-  echo "Missing .env.server. Create it from .env.server.example before deploy."
+  echo "Missing .env.server. Copy: cp .env.server.example .env.server"
   exit 1
 fi
 
@@ -19,7 +19,15 @@ fi
 echo "Fetching latest changes..."
 git fetch origin
 git checkout "$BRANCH"
+PREV_HEAD="$(git rev-parse HEAD)"
 git pull --ff-only origin "$BRANCH"
+
+if git diff --name-only "$PREV_HEAD" HEAD | grep -q '^\.env$'; then
+  echo ""
+  echo "Note: .env changed in this pull. Merge any new variable names into .env.server;"
+  echo "      do not replace .env.server with a full copy of .env."
+  echo ""
+fi
 
 mkdir -p config/jwt
 

@@ -14,9 +14,7 @@ final class PropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, Property::class);
     }
 
-    /**
-     * @return list<Property>
-     */
+    
     public function findByUser(User $user): array
     {
         return $this->createQueryBuilder('property')

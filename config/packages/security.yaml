@@ -2,20 +2,17 @@ security:
   password_hashers:
     App\Auth\Domain\Entity\User:
       algorithm: auto
-
   providers:
     app_user_provider:
       entity:
         class: App\Auth\Domain\Entity\User
         property: email
-
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-
     login:
-      pattern: ^/api/v1/auth/login/?$
+      pattern: '^/api/v1/auth/login/?$'
       stateless: true
       json_login:
         check_path: /api/v1/auth/login
@@ -23,15 +20,53 @@ security:
         password_path: password
         success_handler: App\Auth\Presentation\Security\LoginSuccessHandler
         failure_handler: App\Auth\Presentation\Security\LoginFailureHandler
-
+    login_root:
+      pattern: '^/auth/login/?$'
+      stateless: true
+      json_login:
+        check_path: /auth/login
+        username_path: email
+        password_path: password
+        success_handler: App\Auth\Presentation\Security\LoginSuccessHandler
+        failure_handler: App\Auth\Presentation\Security\LoginFailureHandler
     api:
       pattern: ^/api/v1
       stateless: true
-      jwt: ~
-
+      jwt: null
+    admin:
+      pattern: ^/admin
+      lazy: true
+      provider: app_user_provider
+      form_login:
+        login_path: admin_login
+        check_path: admin_login
+        enable_csrf: true
+        default_target_path: /admin
+      logout:
+        path: /admin/logout
+        target: admin_login
   access_control:
-    - { path: ^/api/v1/health, roles: PUBLIC_ACCESS }
-    - { path: ^/api/v1/auth/register, roles: PUBLIC_ACCESS }
-    - { path: ^/api/v1/auth/login/?$, roles: PUBLIC_ACCESS }
-    - { path: ^/api/v1/docs, roles: PUBLIC_ACCESS }
-    - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
+    -
+      path: ^/api/v1/health
+      roles: PUBLIC_ACCESS
+    -
+      path: ^/api/v1/auth/register
+      roles: PUBLIC_ACCESS
+    -
+      path: '^/api/v1/auth/login/?$'
+      roles: PUBLIC_ACCESS
+    -
+      path: '^/auth/login/?$'
+      roles: PUBLIC_ACCESS
+    -
+      path: ^/api/v1/docs
+      roles: PUBLIC_ACCESS
+    -
+      path: ^/api/v1
+      roles: IS_AUTHENTICATED_FULLY
+    -
+      path: ^/admin/login
+      roles: PUBLIC_ACCESS
+    -
+      path: ^/admin
+      roles: ROLE_ADMIN

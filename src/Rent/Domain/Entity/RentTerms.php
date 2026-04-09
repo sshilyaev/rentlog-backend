@@ -87,9 +87,24 @@ class RentTerms
         return $this->property;
     }
 
+    public function setProperty(Property $property): void
+    {
+        $this->property = $property;
+    }
+
     public function getPropertyMember(): ?PropertyMember
     {
         return $this->propertyMember;
+    }
+
+    public function setPropertyMember(?PropertyMember $propertyMember): void
+    {
+        $this->propertyMember = $propertyMember;
+    }
+
+    public function __toString(): string
+    {
+        return 'Аренда '.$this->baseRentAmount.' '.$this->currency;
     }
 
     public function getBaseRentAmount(): string

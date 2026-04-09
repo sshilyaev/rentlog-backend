@@ -68,6 +68,41 @@ class PropertyMember
         $this->property->addMember($this);
     }
 
+    public function __toString(): string
+    {
+        return $this->fullName.' ('.$this->role->value.')';
+    }
+
+    public function setRole(PropertyMemberRole $role): void
+    {
+        $this->role = $role;
+    }
+
+    public function setStatus(PropertyMemberStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function setFullName(string $fullName): void
+    {
+        $this->fullName = $fullName;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email !== null ? mb_strtolower($email) : null;
+    }
+
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
+    }
+
     public function getId(): string
     {
         return $this->id->toRfc4122();

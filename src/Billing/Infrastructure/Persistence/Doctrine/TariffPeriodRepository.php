@@ -14,9 +14,7 @@ final class TariffPeriodRepository extends ServiceEntityRepository
         parent::__construct($registry, TariffPeriod::class);
     }
 
-    /**
-     * @return list<TariffPeriod>
-     */
+    
     public function findByParameter(BillingParameter $billingParameter): array
     {
         return $this->createQueryBuilder('tariff')

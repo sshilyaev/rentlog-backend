@@ -42,7 +42,7 @@ final class InvitationController
         }
 
         try {
-            /** @var ClaimInvitationRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), ClaimInvitationRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error(

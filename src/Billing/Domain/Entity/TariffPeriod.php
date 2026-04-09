@@ -65,6 +65,41 @@ class TariffPeriod
         return $this->billingParameter;
     }
 
+    public function setBillingParameter(BillingParameter $billingParameter): void
+    {
+        $this->billingParameter = $billingParameter;
+    }
+
+    public function __toString(): string
+    {
+        return $this->price.' '.$this->currency.' с '.$this->effectiveFrom->format('Y-m-d');
+    }
+
+    public function setPricingType(TariffPricingType $pricingType): void
+    {
+        $this->pricingType = $pricingType;
+    }
+
+    public function setPrice(string $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function setCurrency(string $currency): void
+    {
+        $this->currency = mb_strtoupper($currency);
+    }
+
+    public function setEffectiveFrom(\DateTimeImmutable $effectiveFrom): void
+    {
+        $this->effectiveFrom = $effectiveFrom;
+    }
+
+    public function setEffectiveTo(?\DateTimeImmutable $effectiveTo): void
+    {
+        $this->effectiveTo = $effectiveTo;
+    }
+
     public function getPricingType(): TariffPricingType
     {
         return $this->pricingType;

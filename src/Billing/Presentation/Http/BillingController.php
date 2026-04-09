@@ -70,7 +70,7 @@ final class BillingController
         }
 
         try {
-            /** @var CreateMeterRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateMeterRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);
@@ -124,7 +124,7 @@ final class BillingController
         }
 
         try {
-            /** @var CreateMeterReadingRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateMeterReadingRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);
@@ -204,7 +204,7 @@ final class BillingController
         }
 
         try {
-            /** @var CreateMeterReadingRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateMeterReadingRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);
@@ -266,7 +266,7 @@ final class BillingController
         }
 
         try {
-            /** @var CreateBillingParameterRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateBillingParameterRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);
@@ -353,7 +353,7 @@ final class BillingController
         }
 
         try {
-            /** @var CreateTariffPeriodRequestDto $dto */
+            
             $dto = $serializer->deserialize($request->getContent(), CreateTariffPeriodRequestDto::class, 'json');
         } catch (SerializerExceptionInterface) {
             return ApiJsonResponse::error('invalid_payload', 'Некорректный формат данных запроса.', Response::HTTP_BAD_REQUEST);

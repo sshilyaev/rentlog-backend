@@ -42,22 +42,20 @@ class Property
     #[ORM\Column]
     private \DateTimeImmutable $updatedAt;
 
-    /**
-     * @var Collection<int, PropertyMember>
-     */
+    
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: PropertyMember::class, cascade: ['persist'], orphanRemoval: false)]
     private Collection $members;
 
     public function __construct(
-        string $title,
-        PropertyType $typeCode,
-        string $address,
-        ?string $description,
+        string $title = '',
+        ?PropertyType $typeCode = null,
+        string $address = '',
+        ?string $description = null,
         array $metadata = []
     ) {
         $this->id = Uuid::v7();
-        $this->title = $title;
-        $this->typeCode = $typeCode;
+        $this->title = $title !== '' ? $title : 'Новый объект';
+        $this->typeCode = $typeCode ?? PropertyType::Apartment;
         $this->status = PropertyStatus::Active;
         $this->address = $address;
         $this->description = $description;
@@ -65,6 +63,42 @@ class Property
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = $this->createdAt;
         $this->members = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setTypeCode(PropertyType $typeCode): void
+    {
+        $this->typeCode = $typeCode;
+    }
+
+    public function setStatus(PropertyStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    
+    public function setMetadata(array $metadata): void
+    {
+        $this->metadata = $metadata;
     }
 
     public function getId(): string
@@ -119,9 +153,7 @@ class Property
         }
     }
 
-    /**
-     * @return Collection<int, PropertyMember>
-     */
+    
     public function getMembers(): Collection
     {
         return $this->members;

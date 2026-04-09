@@ -15,9 +15,7 @@ final class MeterReadingRepository extends ServiceEntityRepository
         parent::__construct($registry, MeterReading::class);
     }
 
-    /**
-     * @return list<MeterReading>
-     */
+    
     public function findByMeter(Meter $meter): array
     {
         return $this->createQueryBuilder('reading')

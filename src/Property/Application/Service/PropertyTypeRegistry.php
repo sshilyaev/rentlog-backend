@@ -6,9 +6,7 @@ use App\Property\Domain\Enum\PropertyType;
 
 final class PropertyTypeRegistry
 {
-    /**
-     * @return list<array{code:string,label:string,notes:string}>
-     */
+    
     public function all(): array
     {
         return [

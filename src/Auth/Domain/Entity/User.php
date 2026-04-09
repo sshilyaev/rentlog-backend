@@ -28,12 +28,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = ['ROLE_USER'];
 
-    public function __construct(string $email, string $password, string $fullName)
+    
+    public ?string $plainPassword = null;
+
+    public function __construct(string $email = '', string $password = '', string $fullName = '')
     {
         $this->id = Uuid::v7();
-        $this->email = mb_strtolower($email);
+        $this->email = $email !== '' ? mb_strtolower($email) : '';
         $this->password = $password;
         $this->fullName = $fullName;
+    }
+
+    public function __toString(): string
+    {
+        return $this->email !== '' ? $this->email : $this->id->toRfc4122();
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = mb_strtolower($email);
+    }
+
+    public function setFullName(string $fullName): void
+    {
+        $this->fullName = $fullName;
+    }
+
+    
+    public function setRoles(array $roles): void
+    {
+        $this->roles = array_values(array_unique($roles));
     }
 
     public function getId(): string

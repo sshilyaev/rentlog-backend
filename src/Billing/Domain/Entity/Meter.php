@@ -58,6 +58,41 @@ class Meter
         return $this->property;
     }
 
+    public function setProperty(Property $property): void
+    {
+        $this->property = $property;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title.' ('.$this->code.')';
+    }
+
+    public function setCode(string $code): void
+    {
+        $this->code = mb_strtolower($code);
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function setUnit(string $unit): void
+    {
+        $this->unit = $unit;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getCode(): string
     {
         return $this->code;
