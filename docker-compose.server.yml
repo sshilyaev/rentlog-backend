@@ -8,8 +8,9 @@ services:
     env_file:
       - .env
     environment:
-      # env_file is loaded first; these keys override env_file. Use host .env (substitution) so APP_ENV/APP_DEBUG from .env apply.
-      APP_ENV: '${APP_ENV:-prod}'
+      # Prod image is built with composer --no-dev (no MakerBundle, etc.). Keep APP_ENV=prod on the server;
+      # use APP_DEBUG=1 in .env for full exception pages / profiler detail.
+      APP_ENV: prod
       APP_DEBUG: '${APP_DEBUG:-0}'
       DATABASE_URL: '${DATABASE_URL}'
       REDIS_URL: '${REDIS_URL}'
