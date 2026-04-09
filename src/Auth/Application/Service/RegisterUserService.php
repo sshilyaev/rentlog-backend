@@ -14,7 +14,10 @@ final class RegisterUserService
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserPasswordHasherInterface $passwordHasher
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly AuthEmailService $authEmailService,
+        private readonly string $mailerDsn,
+        private readonly bool $autoVerifyEmail,
     ) {
     }
 
@@ -33,8 +36,20 @@ final class RegisterUserService
         $hashedPassword = $this->passwordHasher->hashPassword($user, $dto->password);
         $user->updatePassword($hashedPassword);
 
+        $verificationToken = bin2hex(random_bytes(32));
+        $user->setEmailVerificationToken($verificationToken);
+
+        $mailDisabled = str_contains($this->mailerDsn, 'null://null') || $this->mailerDsn === '';
+        if ($this->autoVerifyEmail || $mailDisabled) {
+            $user->verifyEmail();
+        }
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        if (!$user->isEmailVerified()) {
+            $this->authEmailService->sendEmailVerification($user, $verificationToken);
+        }
 
         return $user;
     }

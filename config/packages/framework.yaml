@@ -1,5 +1,11 @@
 framework:
   secret: '%env(APP_SECRET)%'
+  default_locale: ru
+  translator:
+    default_path: '%kernel.project_dir%/translations'
+    fallbacks:
+      - ru
+      - en
   http_method_override: false
   handle_all_throwables: true
   session:

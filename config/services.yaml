@@ -4,6 +4,9 @@ parameters:
   env(DEFAULT_ADMIN_EMAIL): ''
   env(DEFAULT_ADMIN_PASSWORD): ''
   env(DEFAULT_ADMIN_FULL_NAME): 'Administrator'
+  env(MAILER_DSN): 'null://null'
+  env(MAILER_FROM): 'Rentlog <noreply@localhost>'
+  env(AUTO_VERIFY_EMAIL): '0'
 
 services:
   _defaults:
@@ -28,6 +31,20 @@ services:
       $defaultAdminEmail: '%env(string:DEFAULT_ADMIN_EMAIL)%'
       $defaultAdminPassword: '%env(string:DEFAULT_ADMIN_PASSWORD)%'
       $defaultAdminFullName: '%env(string:DEFAULT_ADMIN_FULL_NAME)%'
+
+  App\Auth\Application\Service\AuthResponseFactory:
+    arguments:
+      $jwtTtlSeconds: '%lexik_jwt_authentication.token_ttl%'
+
+  App\Auth\Application\Service\AuthEmailService:
+    arguments:
+      $mailerFrom: '%env(string:MAILER_FROM)%'
+      $publicBaseUrl: '%env(string:DEFAULT_URI)%'
+
+  App\Auth\Application\Service\RegisterUserService:
+    arguments:
+      $mailerDsn: '%env(string:MAILER_DSN)%'
+      $autoVerifyEmail: '%env(bool:AUTO_VERIFY_EMAIL)%'
 
   App\Shared\Infrastructure\Security\DevProfilerAssetsRequestMatcher:
     arguments:

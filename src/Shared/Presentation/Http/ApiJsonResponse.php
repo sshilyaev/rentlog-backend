@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Presentation\Http;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ApiJsonResponse extends JsonResponse
 {
@@ -21,6 +24,18 @@ final class ApiJsonResponse extends JsonResponse
             'error' => [
                 'code' => $code,
                 'message' => $message,
+            ],
+        ], $status);
+    }
+
+    /** @param non-empty-string $messageKey Key in domain `api` (e.g. error.invalid_payload) */
+    public static function errorTrans(TranslatorInterface $translator, string $messageKey, int $status): self
+    {
+        return new self([
+            'success' => false,
+            'error' => [
+                'code' => $messageKey,
+                'message' => $translator->trans($messageKey, [], 'api'),
             ],
         ], $status);
     }

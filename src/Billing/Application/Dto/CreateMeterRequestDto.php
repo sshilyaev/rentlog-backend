@@ -2,6 +2,7 @@
 
 namespace App\Billing\Application\Dto;
 
+use App\Billing\Domain\Enum\MeterUnit;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class CreateMeterRequestDto
@@ -15,6 +16,12 @@ final class CreateMeterRequestDto
     public string $title = '';
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 50)]
+    #[Assert\Choice(callback: [self::class, 'allowedUnits'])]
     public string $unit = '';
+
+    /** @return list<string> */
+    public static function allowedUnits(): array
+    {
+        return array_map(static fn (MeterUnit $u): string => $u->value, MeterUnit::cases());
+    }
 }

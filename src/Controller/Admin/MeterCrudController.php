@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Billing\Domain\Entity\Meter;
+use App\Billing\Domain\Enum\MeterUnit;
 use App\Property\Domain\Entity\Property;
 use App\Property\Infrastructure\Persistence\Doctrine\PropertyRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -11,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 #[\EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute(path: 'meters', name: 'meter')]
@@ -45,7 +47,7 @@ final class MeterCrudController extends AbstractCrudController
             property: $property,
             code: 'meter-'.substr(uniqid(), -6),
             title: 'Новый счётчик',
-            unit: 'м³'
+            unit: MeterUnit::CubicMeter
         );
     }
 
@@ -55,7 +57,7 @@ final class MeterCrudController extends AbstractCrudController
         yield AssociationField::new('property', 'Объект');
         yield TextField::new('code', 'Код');
         yield TextField::new('title', 'Название');
-        yield TextField::new('unit', 'Единица');
+        yield ChoiceField::new('unit', 'Единица измерения')->setChoices(MeterUnit::choicesForForms());
         yield BooleanField::new('isActive', 'Активен');
         yield DateTimeField::new('createdAt')->hideOnForm();
         yield DateTimeField::new('updatedAt')->hideOnForm();

@@ -2,6 +2,7 @@
 
 namespace App\Billing\Domain\Entity;
 
+use App\Billing\Domain\Enum\MeterUnit;
 use App\Billing\Infrastructure\Persistence\Doctrine\MeterRepository;
 use App\Property\Domain\Entity\Property;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,8 +26,8 @@ class Meter
     #[ORM\Column(length: 255)]
     private string $title;
 
-    #[ORM\Column(length: 50)]
-    private string $unit;
+    #[ORM\Column(enumType: MeterUnit::class, length: 50)]
+    private MeterUnit $unit;
 
     #[ORM\Column]
     private bool $isActive = true;
@@ -37,7 +38,7 @@ class Meter
     #[ORM\Column]
     private \DateTimeImmutable $updatedAt;
 
-    public function __construct(Property $property, string $code, string $title, string $unit)
+    public function __construct(Property $property, string $code, string $title, MeterUnit $unit)
     {
         $this->id = Uuid::v7();
         $this->property = $property;
@@ -81,7 +82,7 @@ class Meter
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function setUnit(string $unit): void
+    public function setUnit(MeterUnit $unit): void
     {
         $this->unit = $unit;
         $this->updatedAt = new \DateTimeImmutable();
@@ -103,7 +104,7 @@ class Meter
         return $this->title;
     }
 
-    public function getUnit(): string
+    public function getUnit(): MeterUnit
     {
         return $this->unit;
     }

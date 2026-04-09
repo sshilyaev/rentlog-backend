@@ -6,7 +6,14 @@ use App\Auth\Domain\Entity\User;
 
 final class AuthResponseFactory
 {
-    public function make(User $user, ?string $token = null, int $expiresIn = 3600): array
+    private readonly int $jwtTtlSeconds;
+
+    public function __construct(int|string $jwtTtlSeconds)
+    {
+        $this->jwtTtlSeconds = (int) $jwtTtlSeconds;
+    }
+
+    public function make(User $user, ?string $accessToken = null, ?string $refreshToken = null): array
     {
         $response = [
             'user' => [
@@ -14,14 +21,16 @@ final class AuthResponseFactory
                 'email' => $user->getEmail(),
                 'fullName' => $user->getFullName(),
                 'roles' => $user->getRoles(),
+                'emailVerified' => $user->isEmailVerified(),
             ],
         ];
 
-        if ($token !== null) {
+        if ($accessToken !== null) {
             $response['token'] = [
-                'accessToken' => $token,
+                'accessToken' => $accessToken,
+                'refreshToken' => $refreshToken,
                 'tokenType' => 'Bearer',
-                'expiresIn' => $expiresIn,
+                'expiresIn' => $this->jwtTtlSeconds,
             ];
         }
 

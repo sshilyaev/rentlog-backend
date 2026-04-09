@@ -432,11 +432,16 @@ final class BillingController
 
     private function meterData(Meter $meter): array
     {
+        $u = $meter->getUnit();
+
         return [
             'id' => $meter->getId(),
             'code' => $meter->getCode(),
             'title' => $meter->getTitle(),
-            'unit' => $meter->getUnit(),
+            'unit' => [
+                'code' => $u->value,
+                'label' => $u->labelRu(),
+            ],
             'isActive' => $meter->isActive(),
             'createdAt' => $meter->getCreatedAt()->format(DATE_ATOM),
             'updatedAt' => $meter->getUpdatedAt()->format(DATE_ATOM),
@@ -459,12 +464,17 @@ final class BillingController
 
     private function parameterData(BillingParameter $parameter): array
     {
+        $cat = $parameter->getCategory();
+        $src = $parameter->getSourceType();
+
         return [
             'id' => $parameter->getId(),
             'code' => $parameter->getCode(),
             'title' => $parameter->getTitle(),
-            'category' => $parameter->getCategory()->value,
-            'sourceType' => $parameter->getSourceType()->value,
+            'category' => $cat->value,
+            'categoryLabel' => $cat->labelRu(),
+            'sourceType' => $src->value,
+            'sourceTypeLabel' => $src->labelRu(),
             'meterId' => $parameter->getMeter()?->getId(),
             'unit' => $parameter->getUnit(),
             'isActive' => $parameter->isActive(),

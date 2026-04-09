@@ -28,7 +28,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = ['ROLE_USER'];
 
-    
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $emailVerifiedAt = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $emailVerificationToken = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $passwordResetToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $passwordResetExpiresAt = null;
+
     public ?string $plainPassword = null;
 
     public function __construct(string $email = '', string $password = '', string $fullName = '')
@@ -100,5 +111,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function updatePassword(string $hashedPassword): void
     {
         $this->password = $hashedPassword;
+    }
+
+    public function isEmailVerified(): bool
+    {
+        return $this->emailVerifiedAt !== null;
+    }
+
+    public function getEmailVerifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function verifyEmail(): void
+    {
+        $this->emailVerifiedAt = new \DateTimeImmutable();
+        $this->emailVerificationToken = null;
+    }
+
+    public function getEmailVerificationToken(): ?string
+    {
+        return $this->emailVerificationToken;
+    }
+
+    public function setEmailVerificationToken(?string $emailVerificationToken): void
+    {
+        $this->emailVerificationToken = $emailVerificationToken;
+    }
+
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
+    public function getPasswordResetExpiresAt(): ?\DateTimeImmutable
+    {
+        return $this->passwordResetExpiresAt;
+    }
+
+    public function setPasswordResetRequest(?string $token, ?\DateTimeImmutable $expiresAt): void
+    {
+        $this->passwordResetToken = $token;
+        $this->passwordResetExpiresAt = $expiresAt;
+    }
+
+    public function clearPasswordResetRequest(): void
+    {
+        $this->passwordResetToken = null;
+        $this->passwordResetExpiresAt = null;
     }
 }

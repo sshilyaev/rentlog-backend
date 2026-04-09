@@ -29,6 +29,16 @@ final class UserRepository extends ServiceEntityRepository
         return $this->findOneBy(['email' => mb_strtolower($email)]);
     }
 
+    public function findOneByEmailVerificationToken(string $token): ?User
+    {
+        return $this->findOneBy(['emailVerificationToken' => $token]);
+    }
+
+    public function findOneByPasswordResetToken(string $token): ?User
+    {
+        return $this->findOneBy(['passwordResetToken' => $token]);
+    }
+
     public function existsAnyAdmin(): bool
     {
         $conn = $this->getEntityManager()->getConnection();

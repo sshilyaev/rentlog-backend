@@ -3,6 +3,7 @@
 namespace App\Auth\Presentation\Security;
 
 use App\Auth\Application\Service\AuthResponseFactory;
+use App\Auth\Application\Service\RefreshTokenIssuer;
 use App\Auth\Domain\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +15,8 @@ final class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
     public function __construct(
         private readonly AuthResponseFactory $authResponseFactory,
-        private readonly JWTTokenManagerInterface $jwtTokenManager
+        private readonly JWTTokenManagerInterface $jwtTokenManager,
+        private readonly RefreshTokenIssuer $refreshTokenIssuer,
     ) {
     }
 
@@ -33,10 +35,11 @@ final class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
         }
 
         $jwt = $this->jwtTokenManager->create($user);
+        $refresh = $this->refreshTokenIssuer->issue($user);
 
         return new JsonResponse([
             'success' => true,
-            'data' => $this->authResponseFactory->make($user, $jwt),
+            'data' => $this->authResponseFactory->make($user, $jwt, $refresh),
         ]);
     }
 }

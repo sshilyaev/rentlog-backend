@@ -62,22 +62,31 @@ final class BillingParameterCrudController extends AbstractCrudController
         yield AssociationField::new('meter', 'Счётчик');
         yield TextField::new('code', 'Код');
         yield TextField::new('title', 'Название');
-        yield ChoiceField::new('category', 'Категория')->setChoices($this->enumChoices(BillingCategory::cases()));
-        yield ChoiceField::new('sourceType', 'Источник')->setChoices($this->enumChoices(BillingParameterSourceType::cases()));
-        yield TextField::new('unit', 'Единица');
+        yield ChoiceField::new('category', 'Категория')->setChoices($this->billingCategoryChoices());
+        yield ChoiceField::new('sourceType', 'Источник начисления')->setChoices($this->billingParameterSourceTypeChoices());
+        yield TextField::new('unit', 'Единица (подпись, опционально)');
         yield BooleanField::new('isActive', 'Активен');
         yield DateTimeField::new('createdAt')->hideOnForm();
         yield DateTimeField::new('updatedAt')->hideOnForm();
     }
 
-    
-    private function enumChoices(array $cases): array
+    /** @return array<string, BillingCategory> */
+    private function billingCategoryChoices(): array
     {
         $out = [];
-        foreach ($cases as $case) {
-            if (is_object($case) && property_exists($case, 'name')) {
-                $out[$case->name] = $case;
-            }
+        foreach (BillingCategory::cases() as $case) {
+            $out[$case->labelRu()] = $case;
+        }
+
+        return $out;
+    }
+
+    /** @return array<string, BillingParameterSourceType> */
+    private function billingParameterSourceTypeChoices(): array
+    {
+        $out = [];
+        foreach (BillingParameterSourceType::cases() as $case) {
+            $out[$case->labelRu()] = $case;
         }
 
         return $out;

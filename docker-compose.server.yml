@@ -22,6 +22,10 @@ services:
       DEFAULT_ADMIN_EMAIL: '${DEFAULT_ADMIN_EMAIL:-}'
       DEFAULT_ADMIN_PASSWORD: '${DEFAULT_ADMIN_PASSWORD:-}'
       DEFAULT_ADMIN_FULL_NAME: '${DEFAULT_ADMIN_FULL_NAME:-Administrator}'
+      DEFAULT_URI: '${DEFAULT_URI:-http://localhost:8080}'
+      MAILER_DSN: '${MAILER_DSN:-null://null}'
+      MAILER_FROM: '${MAILER_FROM:-Rentlog <noreply@localhost>}'
+      AUTO_VERIFY_EMAIL: '${AUTO_VERIFY_EMAIL:-0}'
     depends_on:
       - postgres
       - redis
