@@ -2,15 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Auth\Domain\Entity\User;
-use App\Billing\Domain\Entity\BillingParameter;
-use App\Billing\Domain\Entity\Meter;
-use App\Billing\Domain\Entity\MeterReading;
-use App\Billing\Domain\Entity\TariffPeriod;
-use App\Property\Domain\Entity\Invitation;
-use App\Property\Domain\Entity\Property;
-use App\Property\Domain\Entity\PropertyMember;
-use App\Rent\Domain\Entity\RentTerms;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -48,18 +39,18 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Главная', 'fa fa-home');
 
         yield MenuItem::section('Учётные записи');
-        yield MenuItem::linkToCrud('Пользователи', 'fa fa-users', User::class);
+        yield MenuItem::linkTo(UserCrudController::class, 'Пользователи', 'fa fa-users');
 
         yield MenuItem::section('Объекты и участники');
-        yield MenuItem::linkToCrud('Объекты', 'fa fa-building', Property::class);
-        yield MenuItem::linkToCrud('Участники объектов', 'fa fa-user-friends', PropertyMember::class);
-        yield MenuItem::linkToCrud('Приглашения', 'fa fa-envelope', Invitation::class);
+        yield MenuItem::linkTo(PropertyCrudController::class, 'Объекты', 'fa fa-building');
+        yield MenuItem::linkTo(PropertyMemberCrudController::class, 'Участники объектов', 'fa fa-user-friends');
+        yield MenuItem::linkTo(InvitationCrudController::class, 'Приглашения', 'fa fa-envelope');
 
         yield MenuItem::section('Аренда и биллинг');
-        yield MenuItem::linkToCrud('Условия аренды', 'fa fa-file-contract', RentTerms::class);
-        yield MenuItem::linkToCrud('Счётчики', 'fa fa-tachometer-alt', Meter::class);
-        yield MenuItem::linkToCrud('Показания', 'fa fa-chart-line', MeterReading::class);
-        yield MenuItem::linkToCrud('Параметры начислений', 'fa fa-sliders-h', BillingParameter::class);
-        yield MenuItem::linkToCrud('Тарифные периоды', 'fa fa-calendar-alt', TariffPeriod::class);
+        yield MenuItem::linkTo(RentTermsCrudController::class, 'Условия аренды', 'fa fa-file-contract');
+        yield MenuItem::linkTo(MeterCrudController::class, 'Счётчики', 'fa fa-tachometer-alt');
+        yield MenuItem::linkTo(MeterReadingCrudController::class, 'Показания', 'fa fa-chart-line');
+        yield MenuItem::linkTo(BillingParameterCrudController::class, 'Параметры начислений', 'fa fa-sliders-h');
+        yield MenuItem::linkTo(TariffPeriodCrudController::class, 'Тарифные периоды', 'fa fa-calendar-alt');
     }
 }
