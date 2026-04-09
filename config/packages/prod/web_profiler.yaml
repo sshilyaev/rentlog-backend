@@ -3,7 +3,8 @@ when@prod:
     toolbar:
       enabled: '%env(bool:WEB_PROFILER_ENABLED)%'
       ajax_replace: '%env(bool:WEB_PROFILER_ENABLED)%'
-    intercept_redirects: '%env(bool:WEB_PROFILER_ENABLED)%'
+    # Do not stop on redirects (e.g. /admin → /admin/users); normal browser follow.
+    intercept_redirects: false
   framework:
     profiler:
       collect: '%env(bool:WEB_PROFILER_ENABLED)%'
