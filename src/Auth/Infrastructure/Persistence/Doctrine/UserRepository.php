@@ -24,6 +24,11 @@ final class UserRepository extends ServiceEntityRepository
             ->getSingleScalarResult() > 0;
     }
 
+    public function findOneByEmail(string $email): ?User
+    {
+        return $this->findOneBy(['email' => mb_strtolower($email)]);
+    }
+
     public function existsAnyAdmin(): bool
     {
         $conn = $this->getEntityManager()->getConnection();

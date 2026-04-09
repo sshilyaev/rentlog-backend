@@ -47,7 +47,8 @@ final class EnsureDefaultAdminSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if ($this->defaultAdminEmail === '' || $this->defaultAdminPassword === '') {
+        $email = mb_strtolower(trim($this->defaultAdminEmail));
+        if ($email === '' || $this->defaultAdminPassword === '') {
             return;
         }
 
@@ -57,7 +58,25 @@ final class EnsureDefaultAdminSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $user = new User($this->defaultAdminEmail, '', $this->defaultAdminFullName);
+        if ($this->userRepository->existsByEmail($email)) {
+            $user = $this->userRepository->findOneByEmail($email);
+            if ($user === null) {
+                self::$ran = true;
+
+                return;
+            }
+            $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+            $user->updatePassword($this->passwordHasher->hashPassword($user, $this->defaultAdminPassword));
+            if ($this->defaultAdminFullName !== '') {
+                $user->setFullName($this->defaultAdminFullName);
+            }
+            $this->entityManager->flush();
+            self::$ran = true;
+
+            return;
+        }
+
+        $user = new User($email, '', $this->defaultAdminFullName);
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
         $user->updatePassword($this->passwordHasher->hashPassword($user, $this->defaultAdminPassword));
 
