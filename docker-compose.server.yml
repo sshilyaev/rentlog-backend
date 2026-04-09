@@ -8,8 +8,9 @@ services:
     env_file:
       - .env
     environment:
-      APP_ENV: prod
-      APP_DEBUG: 0
+      # env_file is loaded first; these keys override env_file. Use host .env (substitution) so APP_ENV/APP_DEBUG from .env apply.
+      APP_ENV: '${APP_ENV:-prod}'
+      APP_DEBUG: '${APP_DEBUG:-0}'
       DATABASE_URL: '${DATABASE_URL}'
       REDIS_URL: '${REDIS_URL}'
       JWT_SECRET_KEY: /var/www/html/config/jwt/private.pem
