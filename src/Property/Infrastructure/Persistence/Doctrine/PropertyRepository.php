@@ -18,8 +18,8 @@ final class PropertyRepository extends ServiceEntityRepository
     public function findByUser(User $user): array
     {
         return $this->createQueryBuilder('property')
-            ->innerJoin('property.members', 'member')
-            ->andWhere('member.user = :user')
+            ->innerJoin('property.members', 'pm')
+            ->andWhere('pm.user = :user')
             ->setParameter('user', $user)
             ->orderBy('property.createdAt', 'DESC')
             ->getQuery()
