@@ -31,15 +31,24 @@ fi
 mkdir -p config/jwt
 
 if [[ ! -f "config/jwt/private.pem" || ! -f "config/jwt/public.pem" ]]; then
-  echo "JWT keys are missing. Generate them on the server before deploy."
+  echo "JWT keys are missing. They are not in git (.gitignore); create them on the server."
   echo "Example:"
   echo "  openssl genrsa -out config/jwt/private.pem 4096"
   echo "  openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem"
+  echo "  chmod 644 config/jwt/private.pem config/jwt/public.pem"
   exit 1
 fi
 
 echo "Building and starting containers..."
 docker compose -f docker-compose.server.yml up -d --build
+
+echo "Verifying JWT keys are readable by php-fpm (www-data)..."
+if ! docker compose -f docker-compose.server.yml exec -T -u www-data php sh -c 'test -r /var/www/html/config/jwt/private.pem && test -r /var/www/html/config/jwt/public.pem'; then
+  echo "ERROR: PHP-FPM runs as www-data; it cannot read mounted JWT keys."
+  echo "On the host, fix permissions, e.g.:"
+  echo "  chmod 644 config/jwt/private.pem config/jwt/public.pem"
+  exit 1
+fi
 
 echo "Running migrations..."
 docker compose -f docker-compose.server.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction

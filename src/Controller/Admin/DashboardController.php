@@ -12,18 +12,28 @@ use App\Property\Domain\Entity\Property;
 use App\Property\Domain\Entity\PropertyMember;
 use App\Rent\Domain\Entity\RentTerms;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 final class DashboardController extends AbstractDashboardController
 {
-    
     public function index(): Response
     {
-        return parent::index();
+        // EasyAdmin 5's parent::index() only renders the default welcome page; send admins to a real CRUD.
+        $adminUrlGenerator = $this->container->get(AdminUrlGeneratorInterface::class);
+
+        return $this->redirect(
+            $adminUrlGenerator
+                ->setDashboard(self::class)
+                ->setController(UserCrudController::class)
+                ->setAction(Action::INDEX)
+                ->generateUrl()
+        );
     }
 
     public function configureDashboard(): Dashboard
