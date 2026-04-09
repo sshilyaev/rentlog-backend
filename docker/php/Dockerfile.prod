@@ -25,6 +25,8 @@ RUN apt-get update \
 
 WORKDIR /var/www/html
 
+COPY docker/php/fpm-zzz-env.conf /usr/local/etc/php-fpm.d/zzz-clear-env.conf
+
 COPY --from=composer_deps /app/vendor ./vendor
 COPY . .
 
