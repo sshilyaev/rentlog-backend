@@ -2,10 +2,14 @@ when@prod:
   web_profiler:
     toolbar:
       enabled: '%env(bool:WEB_PROFILER_ENABLED)%'
+      ajax_replace: '%env(bool:WEB_PROFILER_ENABLED)%'
+    intercept_redirects: '%env(bool:WEB_PROFILER_ENABLED)%'
   framework:
     profiler:
       collect: '%env(bool:WEB_PROFILER_ENABLED)%'
       only_exceptions: false
+      only_main_requests: false
+      collect_serializer_data: true
     trusted_proxies: PRIVATE_SUBNETS
     trusted_headers:
       - x-forwarded-for
