@@ -6,3 +6,9 @@ when@prod:
     profiler:
       collect: '%env(bool:WEB_PROFILER_ENABLED)%'
       only_exceptions: false
+    trusted_proxies: PRIVATE_SUBNETS
+    trusted_headers:
+      - x-forwarded-for
+      - x-forwarded-proto
+      - x-forwarded-port
+      - x-forwarded-host

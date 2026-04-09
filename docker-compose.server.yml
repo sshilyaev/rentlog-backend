@@ -15,6 +15,11 @@ services:
       JWT_SECRET_KEY: /var/www/html/config/jwt/private.pem
       JWT_PUBLIC_KEY: /var/www/html/config/jwt/public.pem
       JWT_PASSPHRASE: '${JWT_PASSPHRASE:-}'
+      WEB_PROFILER_ENABLED: '${WEB_PROFILER_ENABLED:-0}'
+      PROFILER_HTTP_PASSWORD: '${PROFILER_HTTP_PASSWORD:-}'
+      DEFAULT_ADMIN_EMAIL: '${DEFAULT_ADMIN_EMAIL:-}'
+      DEFAULT_ADMIN_PASSWORD: '${DEFAULT_ADMIN_PASSWORD:-}'
+      DEFAULT_ADMIN_FULL_NAME: '${DEFAULT_ADMIN_FULL_NAME:-Administrator}'
     depends_on:
       - postgres
       - redis
