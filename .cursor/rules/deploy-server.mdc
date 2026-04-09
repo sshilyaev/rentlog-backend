@@ -1,0 +1,12 @@
+---
+description: Production server SSH and deploy for rentlog-backend
+alwaysApply: true
+---
+
+# Deploy (по запросу пользователя)
+
+- **SSH:** `shilyaevsergey@158.160.175.251` (эквивалент `ssh -l shilyaevsergey 158.160.175.251`).
+- **Проект на сервере:** `~/rentlog-backend`.
+- Когда пользователь просит **деплой** или **запушить и задеплоить**: после `git push` выполнить удалённо неинтерактивно, например:
+  `ssh -o BatchMode=yes shilyaevsergey@158.160.175.251 'cd ~/rentlog-backend && git pull origin main && ./deploy.sh main'`
+- Если SSH недоступен из среды агента (нет ключа / сеть), кратко сообщить и дать команду для локального запуска.
